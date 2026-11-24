@@ -1,0 +1,173 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:steam_trailer_tool.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="760"
+        Width="900" Height="760"
+        MinWidth="720" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        x:Class="steam_trailer_tool.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Steam Trailer Tool - 상점 트레일러 다운로더"
+        Icon="/Assets/icon.ico"
+        Background="#171A21">
+
+    <Window.Styles>
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#5C7E10" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="16,10" />
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#79A21A" />
+        </Style>
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#2A475E" />
+            <Setter Property="Foreground" Value="#E4E9EE" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,8" />
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3D6C8D" />
+        </Style>
+        <Style Selector="Button.danger">
+            <Setter Property="Background" Value="#991B1B" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="16,10" />
+        </Style>
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="#1B2838" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="BorderBrush" Value="#2A475E" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="22">
+        <!-- HEADER -->
+        <StackPanel Grid.Row="0" Spacing="6" Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Image Source="/Assets/icon.png" Width="38" Height="38" VerticalAlignment="Center" />
+                <TextBlock Text="Steam Trailer Tool" Foreground="White" FontSize="22" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock Text="Steam 상점 페이지에서 재생되는 트레일러(DASH 스트림)를 원본 화질 그대로 mp4로 저장합니다."
+                       Foreground="#8F98A0" FontSize="13" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!-- URL INPUT -->
+        <Border Grid.Row="1" Classes="card" Margin="0,0,0,14">
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                <TextBlock Text="Steam 상점 주소 또는 AppID" Foreground="#E4E9EE" FontWeight="Medium" FontSize="14" />
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <TextBox Text="{Binding InputText}" PlaceholderText="https://store.steampowered.com/app/4839390/Muse_Dash_2/"
+                             Height="40" VerticalContentAlignment="Center" Background="#101822" Foreground="White"
+                             BorderBrush="#3D6C8D" CornerRadius="6" FontSize="14">
+                        <TextBox.KeyBindings>
+                            <KeyBinding Gesture="Enter" Command="{Binding AnalyzeCommand}" />
+                        </TextBox.KeyBindings>
+                    </TextBox>
+                    <Button Grid.Column="1" Classes="secondary" Content="🔍 분석하기" Height="40"
+                            Command="{Binding AnalyzeCommand}" IsEnabled="{Binding IsIdle}" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- TRAILER LIST -->
+        <Border Grid.Row="2" Classes="card" Margin="0,0,0,14">
+            <Grid RowDefinitions="Auto,*">
+                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                    <TextBlock Text="{Binding AppTitle}" Foreground="White" FontSize="16" FontWeight="Bold"
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                    <Button Grid.Column="1" Classes="secondary" Content="☑ 전체 선택/해제" Padding="10,5"
+                            Command="{Binding SelectAllCommand}" IsVisible="{Binding IsInfoLoaded}" IsEnabled="{Binding IsIdle}" />
+                </Grid>
+
+                <TextBlock Grid.Row="1" Text="분석하면 이곳에 트레일러 목록이 표시됩니다."
+                           Foreground="#617080" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           IsVisible="{Binding !IsInfoLoaded}" />
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" IsVisible="{Binding IsInfoLoaded}">
+                    <ItemsControl ItemsSource="{Binding Trailers}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:TrailerItemViewModel">
+                                <Border Background="#16202D" CornerRadius="8" Padding="10">
+                                    <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="12">
+                                        <CheckBox IsChecked="{Binding IsSelected}" VerticalAlignment="Center"
+                                                  IsEnabled="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).IsIdle}" />
+                                        <Border Grid.Column="1" Width="176" Height="99" CornerRadius="6" ClipToBounds="True" Background="#0E141B">
+                                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                                        </Border>
+                                        <StackPanel Grid.Column="2" Spacing="6" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Title}" Foreground="White" FontSize="14" FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding SubTitle}" Foreground="#8F98A0" FontSize="12" />
+                                            <ProgressBar Value="{Binding ProgressValue}" Minimum="0" Maximum="100" Height="6"
+                                                         Background="#0E141B" Foreground="#66C0F4" CornerRadius="3" />
+                                            <TextBlock Text="{Binding StatusText}" Foreground="#C7D5E0" FontSize="12"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- OPTIONS & DOWNLOAD -->
+        <Border Grid.Row="3" Classes="card" Margin="0,0,0,14">
+            <StackPanel Spacing="12">
+                <Grid ColumnDefinitions="Auto,*,Auto,*" ColumnSpacing="10">
+                    <TextBlock Text="코덱" Foreground="#E4E9EE" VerticalAlignment="Center" />
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding CodecOptions}" SelectedIndex="{Binding SelectedCodecIndex}"
+                              HorizontalAlignment="Stretch" IsEnabled="{Binding IsIdle}" />
+                    <TextBlock Grid.Column="2" Text="화질" Foreground="#E4E9EE" VerticalAlignment="Center" Margin="10,0,0,0" />
+                    <ComboBox Grid.Column="3" ItemsSource="{Binding QualityOptions}" SelectedIndex="{Binding SelectedQualityIndex}"
+                              HorizontalAlignment="Stretch" IsEnabled="{Binding IsIdle}" />
+                </Grid>
+
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                    <TextBox Text="{Binding SaveFolderPath}" IsReadOnly="True" Height="36" VerticalContentAlignment="Center"
+                             Background="#101822" Foreground="#C7D5E0" BorderBrush="#3D6C8D" CornerRadius="6" />
+                    <Button Grid.Column="1" Classes="secondary" Content="📁 폴더 변경" Click="SelectFolder_Click" IsEnabled="{Binding IsIdle}" />
+                    <Button Grid.Column="2" Classes="secondary" Content="📂 폴더 열기" Command="{Binding OpenFolderCommand}" />
+                </Grid>
+
+                <TextBlock Text="{Binding FfmpegStatus}" Foreground="#8F98A0" FontSize="12" TextTrimming="CharacterEllipsis" />
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <Button Classes="primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Height="46"
+                            Content="⬇ 선택한 트레일러 다운로드" FontSize="15"
+                            Command="{Binding DownloadCommand}" IsEnabled="{Binding IsIdle}" />
+                    <Button Grid.Column="1" Classes="danger" Height="46" Content="⏹ 취소"
+                            Command="{Binding CancelCommand}" IsVisible="{Binding IsBusy}" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- STATUS -->
+        <Border Grid.Row="4" Classes="card" Padding="14">
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#E4E9EE" FontSize="13" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="1" Text="{Binding ProgressValue, StringFormat='{}{0:0}%'}" Foreground="#66C0F4"
+                               FontSize="13" FontWeight="Bold" Margin="12,0,0,0" />
+                </Grid>
+                <ProgressBar Grid.Row="1" Value="{Binding ProgressValue}" Minimum="0" Maximum="100" Height="8"
+                             Background="#101822" Foreground="#66C0F4" CornerRadius="4" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

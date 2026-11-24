@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SteamTrailerTool.Core/SteamTrailerTool.Core.csproj" />
+  <Project Path="SteamTrailerTool.Cli/SteamTrailerTool.Cli.csproj" />
+  <Project Path="steam trailer tool/steam trailer tool.csproj" />
+  <Project Path="SteamTrailerTool.Tests/SteamTrailerTool.Tests.csproj" />
+</Solution>

@@ -1,0 +1,14 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="steam_trailer_tool.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.Styles>
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <!-- Steam 상점 파란색을 강조색으로 사용 (체크박스·콤보박스 선택 등) -->
+                <ColorPaletteResources x:Key="Dark" Accent="#1A9FFF" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+    </Application.Styles>
+</Application>
