@@ -4,7 +4,7 @@
 - **목적:** Steam 상점 페이지에서 재생되는 트레일러를 원본 스트림 그대로(재인코딩 없음) mp4로 저장. GUI(Avalonia) + CLI.
 - **대상:** 게임 모드가 아니라 Steam 상점 웹 API 클라이언트이므로 게임 버전 고정(Build ID, DepotDownloader, .acf 차단)과 Mono/Il2Cpp 백엔드는 **해당 없음**.
   대신 고정되어야 하는 것은 **Steam 상점 API 응답 형식**이며, 2026-11-24 기준 실측 형식을 아래 §3에 기록했다.
-- **원격 저장소:** `origin` = https://github.com/magjangin/steam-trailer-tool (공개, `main`)
+- **원격 저장소:** `origin` = https://github.com/magjangin/steam-trailer-tool (공개, `main`), `local` = `H:\local-repos\steam trailer tool.git` (로컬 백업 bare 레포, 형제 도구와 같은 규칙). 커밋 후 두 곳 모두 푸시할 것.
 - **기술 스택:** `.NET 10.0`(`net10.0`, `win-x64`), `Avalonia` 12.0.5, `CommunityToolkit.Mvvm` 8.4.2, xUnit 2.9.3. 앱 버전 `1.0.0`.
 - **검증 완료(2026-11-24):**
   - Muse Dash 2(AppID 4839390): CLI·GUI 모두 1080p60 H.264 + AAC 192k, 75.3초 전체 길이 mp4 저장, `ffmpeg -f null` 전체 디코딩 오류 없음.
