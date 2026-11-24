@@ -4,6 +4,7 @@
 - **목적:** Steam 상점 페이지에서 재생되는 트레일러를 원본 스트림 그대로(재인코딩 없음) mp4로 저장. GUI(Avalonia) + CLI.
 - **대상:** 게임 모드가 아니라 Steam 상점 웹 API 클라이언트이므로 게임 버전 고정(Build ID, DepotDownloader, .acf 차단)과 Mono/Il2Cpp 백엔드는 **해당 없음**.
   대신 고정되어야 하는 것은 **Steam 상점 API 응답 형식**이며, 2026-11-24 기준 실측 형식을 아래 §3에 기록했다.
+- **원격 저장소:** `origin` = https://github.com/magjangin/steam-trailer-tool (공개, `main`)
 - **기술 스택:** `.NET 10.0`(`net10.0`, `win-x64`), `Avalonia` 12.0.5, `CommunityToolkit.Mvvm` 8.4.2, xUnit 2.9.3. 앱 버전 `1.0.0`.
 - **검증 완료(2026-11-24):**
   - Muse Dash 2(AppID 4839390): CLI·GUI 모두 1080p60 H.264 + AAC 192k, 75.3초 전체 길이 mp4 저장, `ffmpeg -f null` 전체 디코딩 오류 없음.
@@ -48,6 +49,8 @@
 - **`filters=movies` 단독:** 게임 이름이 오지 않는다. 반드시 `filters=basic,movies`.
 - **PowerShell 5.1로 UI Automation 스크립트 실행 시:** 스크립트에 한글/이모지 버튼 이름이 있으면 UTF-8 **BOM**이 없을 때 깨져서 요소를 못 찾는다. 앱 첫 실행은 창 생성까지 4초 이상 걸릴 수 있어 `MainWindowHandle`이 0으로 나온다(대기 후 재시도).
 - **Fluent 기본 강조색(보라):** 체크박스가 보라색으로 떠서 `App.axaml`에서 `ColorPaletteResources Accent="#1A9FFF"`(Steam 파랑)로 덮었다.
+- **README 배지를 shields.io URL로 직접 걸기:** GitHub 이미지 프록시(camo)가 일부 배지에 504를 계속 반환해 깨진 이미지로 표시됐다(2026-11-24). shields.io SVG를 `docs/badges/`에 저장하고 상대 경로로 참조한다. 버전을 올리면 `version.svg`도 다시 받을 것.
+- **README 스크린샷:** 저장 경로에 Windows 사용자 이름이 보이므로 공개 전에 `User`로 가렸다. 다시 찍을 때도 똑같이 처리할 것.
 - **appdetails 요청 제한:** 짧은 시간에 많이 부르면 429. 클라이언트는 메시지만 띄우고 자동 재시도하지 않는다.
 
 ## 6. 빌드 · 배포
