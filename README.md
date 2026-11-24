@@ -23,7 +23,7 @@ dotnet run --project "steam trailer tool/steam trailer tool.csproj"
 ```
 
 주소 입력 → **분석하기** → 받을 트레일러 체크 → 코덱/화질/저장 폴더 선택 → **다운로드**.
-기본 저장 폴더는 `%USERPROFILE%\Videos\Steam Trailers` 입니다.
+기본 저장 폴더는 `%USERPROFILE%\Downloads\SteamTrailer_Downloads` 입니다 (CLI도 동일).
 
 ## CLI
 
@@ -33,7 +33,7 @@ dotnet run --project SteamTrailerTool.Cli -- https://store.steampowered.com/app/
 
 ```
 steam-trailer <상점 URL | AppID> [옵션]
-  -o, --out <폴더>        저장 폴더 (기본: .\downloads)
+  -o, --out <폴더>        저장 폴더 (기본: %USERPROFILE%\Downloads\SteamTrailer_Downloads)
   -c, --codec <h264|av1>  영상 코덱 (기본: h264)
   -q, --max-height <N>    최대 세로 해상도 (기본: 최고 화질)
   -i, --index <목록>      받을 트레일러 번호 (1부터, 쉼표 구분)

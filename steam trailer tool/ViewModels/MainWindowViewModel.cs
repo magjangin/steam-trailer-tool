@@ -24,7 +24,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public MainWindowViewModel()
     {
-        SaveFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Steam Trailers");
+        // 형제 도구(soundcloud tool → SoundCloud_Downloads, youtube tool → YouTube_Downloads)와 같은 규칙
+        SaveFolderPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            "Downloads",
+            "SteamTrailer_Downloads");
         var ffmpeg = FfmpegMuxer.Locate();
         FfmpegStatus = ffmpeg is null
             ? "⚠ ffmpeg 없음 — 영상(.video.mp4)과 음성(.audio.m4a)이 따로 저장됩니다"

@@ -29,6 +29,7 @@
 - **MPD URL의 `?t=` 쿼리:** 캐시 버스터라 세그먼트 상대 경로 해석 시 버려져도 된다(`new Uri(base, relative)`가 쿼리를 버림). 실측으로 세그먼트 200 응답 확인.
 - **`.part` 원자적 저장:** 실패·취소 시 `.part`를 지워 깨진 mp4가 남지 않게 한다(형제 레포 `soundcloud tool`과 같은 규칙).
 - **Core / GUI / CLI 분리:** Avalonia는 WinExe라 콘솔 출력·대기가 불편하므로 CLI를 별도 콘솔 프로젝트(`steam-trailer.exe`)로 분리했다. 로직은 전부 Core에 있다.
+- **기본 저장 폴더:** GUI·CLI 모두 `%USERPROFILE%\Downloads\SteamTrailer_Downloads`. 형제 도구(`soundcloud tool` → `Downloads\SoundCloud_Downloads`, `youtube tool` → `Downloads\YouTube_Downloads`)와 같은 규칙이므로 바꾸지 말 것 (초기 버전에서 `Videos\Steam Trailers`로 했다가 사용자 요청으로 수정).
 - **파일명:** `게임명 - 트레일러명 [높이p 코덱].mp4`. 같은 앱 안에서 트레일러명이 겹치면(대소문자 무시) `(트레일러ID)`를 붙인다.
 
 ## 4. 핵심 파일
@@ -58,4 +59,4 @@ dotnet publish "steam trailer tool/steam trailer tool.csproj" -c Release -o publ
 dotnet publish SteamTrailerTool.Cli -c Release -o publish
 ```
 - 배포 시 ffmpeg를 함께 넣고 싶으면 `ffmpeg.exe`를 exe 옆에 두면 자동 인식된다.
-- `downloads/`(CLI 기본 출력)와 `publish/`는 `.gitignore` 처리됨.
+- `publish/`와 (구버전 CLI 출력 위치였던) `downloads/`는 `.gitignore` 처리됨.

@@ -9,7 +9,7 @@ const string Usage = """
     사용법: steam-trailer <상점 URL | AppID> [옵션]
 
     옵션:
-      -o, --out <폴더>        저장 폴더 (기본: .\downloads)
+      -o, --out <폴더>        저장 폴더 (기본: %USERPROFILE%\Downloads\SteamTrailer_Downloads)
       -c, --codec <h264|av1>  영상 코덱 (기본: h264)
       -q, --max-height <N>    최대 세로 해상도, 예: 1080, 720 (기본: 최고 화질)
       -i, --index <목록>      받을 트레일러 번호 (1부터, 쉼표 구분). 기본: 전부
@@ -23,7 +23,10 @@ const string Usage = """
     """;
 
 string? input = null;
-var outDir = Path.Combine(Environment.CurrentDirectory, "downloads");
+var outDir = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+    "Downloads",
+    "SteamTrailer_Downloads");
 var codec = VideoCodec.H264;
 int? maxHeight = null;
 HashSet<int>? indices = null;
