@@ -54,6 +54,7 @@
 - **appdetails 요청 제한:** 짧은 시간에 많이 부르면 429. 클라이언트는 메시지만 띄우고 자동 재시도하지 않는다.
 
 ## 6. 빌드 · 배포
+- **사용자가 실행하는 파일은 `publish\steam trailer tool.exe`(GUI)와 `publish\steam-trailer.exe`(CLI)** (soundcloud tool과 같은 위치). 코드를 고치면 publish까지 다시 할 것. 2026-11-24 publish exe로 GUI 분석·CLI 목록 조회 확인.
 ```powershell
 dotnet build "steam trailer tool.slnx"
 dotnet test SteamTrailerTool.Tests
