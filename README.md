@@ -5,11 +5,12 @@
 <img src="steam%20trailer%20tool/Assets/icon.png" width="128" height="128" alt="Steam Trailer Tool Icon" />
 <br/><br/>
 
-![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)
-![Avalonia UI](https://img.shields.io/badge/Avalonia%20UI-12.0.5-8B5CF6?logo=avalonia&logoColor=white)
-![Platform](https://img.shields.io/badge/Platform-Windows%20x64-0078D6?logo=windows&logoColor=white)
-![Steam](https://img.shields.io/badge/Steam-Store%20Trailers-1B2838?logo=steam&logoColor=white)
-![Version](https://img.shields.io/badge/Version-1.0.0-66C0F4)
+<!-- 배지는 GitHub 이미지 프록시(camo) 504를 피하려고 shields.io SVG를 docs/badges에 저장해 사용 -->
+<img src="docs/badges/dotnet.svg" alt=".NET 10" />
+<img src="docs/badges/avalonia.svg" alt="Avalonia UI 12.0.5" />
+<img src="docs/badges/platform.svg" alt="Platform Windows x64" />
+<img src="docs/badges/steam.svg" alt="Steam Store Trailers" />
+<img src="docs/badges/version.svg" alt="Version 1.0.0" />
 
 <p>
   <strong>Steam 상점 페이지에서 재생되는 트레일러를 원본 화질 그대로(재인코딩 없이) mp4로 저장하는 다운로더</strong>
